@@ -1,0 +1,142 @@
+package ca.etsmtl.log430.lab3;
+
+import java.io.PipedReader;
+import java.io.PipedWriter;
+
+/**************************************************************************
+ * This class is intended to be a filter that will collect the input from its
+ * input pipe and write it to an output file.<br>
+ * <br>
+ * 
+ * Pseudo Code:
+ * 
+ * <pre>
+ * connect to upstream filter for input
+ * open output file
+ * while not done
+ * 	read char from input pipe
+ * 	string = string + char
+ * 	write string to string array 
+ * end while
+ * close pipes
+ * write string array to file
+ * </pre>
+ * 
+ * @author R. Champagne
+ * @author Samuel - Added missing comments, 6/21/2014
+ * @version 1.1.1
+ */
+
+public class ConsoleWriterFilter extends Thread {
+
+    // Maximum number of lines of text to be sorted
+    int maxBufferSize = 100;
+
+    // Create local pipe that will connect to upstream filter
+    PipedReader inputPipe = new PipedReader();
+
+    private String consoleAlias;
+
+    /**
+     * Class constructor.
+     * 
+     * @param outputFileName
+     *            the name of the file, where the output of the flow goes
+     * @param inputPipe
+     *            the pipe from which the flow came
+     */
+    public ConsoleWriterFilter(String consoleAlias, PipedWriter inputPipe) {
+
+        this.consoleAlias = consoleAlias;
+
+        try {
+            // Connect inputPipe to upstream filter
+            this.inputPipe.connect(inputPipe);
+            System.out.println("FileWriterFilter:: connected to upstream filter.");
+        } catch (Exception Error) {
+            System.out.println("FileWriterFilter:: Error connecting input pipe.");
+        } // catch
+
+    } // Constructor
+
+    /**
+     * This is the method that is called when the thread is started in
+     * SystemInitialize
+     */
+    @Override
+    public void run() {
+        // Declarations
+
+        boolean done; // Flags for reading from pipe
+
+        // Create a temporary String array of a big size (for sorting)
+        String[] tmpArray = new String[maxBufferSize];
+        int count = 0;
+        int i;
+
+        // Begin process data from the input pipes
+        try {
+            // Declarations
+
+            // Needs to be an array for easy conversion to string
+            char[] characterValue1 = new char[1];
+
+            done = false; // Indicates when you are done
+            // reading on pipe #1
+            int integerCharacter1; // integer value read from pipe
+            String lineOfText1 = ""; // line of text from inputpipe #1
+            boolean write1 = false; // line of text to write to output
+            // pipe #1
+
+            // SystemInitialize loop for reading data
+
+            while (!done) {
+                // Read pipe #1
+                if (!done) {
+                    integerCharacter1 = inputPipe.read();
+                    characterValue1[0] = (char) integerCharacter1;
+
+                    if (integerCharacter1 == -1) // pipe #1 is closed
+                    {
+                        done = true;
+                        System.out.println("ConsoleWriterFilter::" + consoleAlias + ":: input pipe closed.");
+
+                        try {
+                            inputPipe.close();
+                        } catch (Exception Error) {
+                            System.out.println("ConsoleWriterFilter::" + consoleAlias + ":: Error closing input pipe.");
+                        } // try/catch
+                    } else {
+                        if (integerCharacter1 == '\n') // end of line
+                        {
+                            System.out.println("ConsoleWriterFilter::" + consoleAlias + ":: Received: " + lineOfText1 + " on input pipe.");
+                            write1 = true;
+                        } else {
+                            lineOfText1 += new String(characterValue1);
+                        } // if
+                    } // if ( IntegerCharacter1 == -1 )
+                } // if (!Done1)
+
+                if (write1) {
+                    // Add LineOfText1 to temporary string array,
+                    // increment arrayindex and reset Write1 to false.
+                    write1 = false;
+                    tmpArray[count] = lineOfText1;
+                    ++count;
+                    lineOfText1 = "";
+                } // if
+            } // while (!Done1)
+        } // try
+        catch (Exception error) {
+            System.out.println("ConsoleWriterFilter::" + consoleAlias + ":: Interrupted.");
+        } // catch
+
+        // At this point, we have all lines of text in tmpArray.
+
+        // Write the string array to console
+        for (i = 0; i < count; i++) {
+            System.out.println("ConsoleWriterFilter::" + consoleAlias + ":: Writing: " + tmpArray[i]);
+        } // for
+
+    } // run
+} // class
