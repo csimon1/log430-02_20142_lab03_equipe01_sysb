@@ -1,7 +1,14 @@
-package ca.etsmtl.log430.lab3;
+package ca.etsmtl.log430.lab3.tests;
 
 
 import java.io.PipedWriter;
+
+import ca.etsmtl.log430.lab3.FileReaderFilter;
+import ca.etsmtl.log430.lab3.FileWriterFilter;
+import ca.etsmtl.log430.lab3.MergeFilter;
+import ca.etsmtl.log430.lab3.RejectedFilter;
+import ca.etsmtl.log430.lab3.StateFilter;
+import ca.etsmtl.log430.lab3.StatusFilter;
 
 /**
  * This class contains the main method for assignment 3. The program

@@ -1,13 +1,22 @@
 /**
  * 
  */
-package ca.etsmtl.log430.lab3;
+package ca.etsmtl.log430.lab3.tests;
 
 import static org.junit.Assert.fail;
 
 import java.io.PipedWriter;
 
 import org.junit.Test;
+
+import ca.etsmtl.log430.lab3.ColumnChoiceFilter;
+import ca.etsmtl.log430.lab3.ColumnSortFilter;
+import ca.etsmtl.log430.lab3.ConsoleWriterFilter;
+import ca.etsmtl.log430.lab3.DataSortFilter;
+import ca.etsmtl.log430.lab3.FileReaderFilter;
+import ca.etsmtl.log430.lab3.MergeFilter;
+import ca.etsmtl.log430.lab3.StateFilter;
+import ca.etsmtl.log430.lab3.StatusFilter;
 
 /**
  * @author Charly

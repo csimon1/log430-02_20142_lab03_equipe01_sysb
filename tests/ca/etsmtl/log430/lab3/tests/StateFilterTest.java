@@ -1,4 +1,4 @@
-package ca.etsmtl.log430.lab3;
+package ca.etsmtl.log430.lab3.tests;
 
 /**
  * 
@@ -15,7 +15,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.etsmtl.log430.lab3.utils.FilesUtil;
+import ca.etsmtl.log430.lab3.FileReaderFilter;
+import ca.etsmtl.log430.lab3.FileWriterFilter;
+import ca.etsmtl.log430.lab3.StateFilter;
+import ca.etsmtl.log430.lab3.tests.utils.FilesUtil;
 
 /**
  * @author Samuel

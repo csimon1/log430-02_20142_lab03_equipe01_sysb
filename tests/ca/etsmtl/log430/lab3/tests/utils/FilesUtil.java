@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.etsmtl.log430.lab3.utils;
+package ca.etsmtl.log430.lab3.tests.utils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

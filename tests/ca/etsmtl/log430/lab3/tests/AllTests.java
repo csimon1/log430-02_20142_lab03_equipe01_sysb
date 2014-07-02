@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.etsmtl.log430.lab3;
+package ca.etsmtl.log430.lab3.tests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
